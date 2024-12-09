@@ -1,22 +1,55 @@
+import logging
 import requests
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.helpers.entity import Entity
+from homeassistant.const import CONF_NAME
 
-URL = "http://192.168.1.78:8080/status"
+_LOGGER = logging.getLogger(__name__)
 
-class XToolF1Sensor(SensorEntity):
-    def __init__(self):
+# Sensor entity
+class XToolSensor(Entity):
+    """Representation of a Sensor for the XTool."""
+
+    def __init__(self, name, ip_address):
+        self._name = name
+        self._ip_address = ip_address
         self._state = None
 
     @property
     def name(self):
-        return "xTool F1 Status"
+        """Return the name of the sensor."""
+        return self._name
 
     @property
     def state(self):
+        """Return the state of the sensor."""
         return self._state
 
     def update(self):
-        response = requests.get(URL)
-        if response.status_code == 200:
+        """Fetch the latest data from the XTool."""
+        try:
+            response = requests.get(f"http://{self._ip_address}:8080/status")
             data = response.json()
-            self._state = data.get("mode", "unknown")
+            # Mapping der API-Modi auf den Status
+            mode = data.get('mode')
+            if mode == "P_WORK_DONE":
+                self._state = "Abgeschlossen"
+            elif mode == "Work":
+                self._state = "In Arbeit"
+            elif mode == "P_SLEEP":
+                self._state = "Schlafmodus"
+            elif mode == "P_IDLE":
+                self._state = "Im Leerlauf"
+            else:
+                self._state = "Unbekannt"
+        except Exception as e:
+            _LOGGER.error("Error fetching data from XTool: %s", e)
+            self._state = "unavailable"
+
+# Setup function for the integration
+def setup_platform(hass, config, add_entities, discovery_info=None):
+    """Set up the XTool sensor platform."""
+    ip_address = config.get('ip_address')
+    name = "XTool Status"
+    
+    # Add the sensor to Home Assistant
+    add_entities([XToolSensor(name, ip_address)])
