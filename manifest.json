@@ -1,9 +1,9 @@
 {
-  "domain": "xtool_f1",
-  "name": "xTool F1 Integration",
-  "version": "1.0.0",
-  "documentation": "https://github.com/BassXT/xtool_f1_homeassistant",
+  "domain": "xtool",
+  "name": "XTool",
+  "documentation": "https://github.com/BassXT/xtool",
   "requirements": [],
   "dependencies": [],
-  "codeowners": ["@BassXT"]
+  "codeowners": ["@BassXT"],
+  "version": "1.0"
 }
