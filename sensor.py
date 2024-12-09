@@ -43,7 +43,7 @@ class XToolSensor(Entity):
                 self._state = "Unbekannt"
         except Exception as e:
             _LOGGER.error("Error fetching data from XTool: %s", e)
-            self._state = "unavailable"
+            self._state = "off"
 
 # Setup function for the integration
 def setup_platform(hass, config, add_entities, discovery_info=None):
