@@ -32,15 +32,15 @@ class XToolSensor(Entity):
             # Mapping der API-Modi auf den Status
             mode = data.get('mode')
             if mode == "P_WORK_DONE":
-                self._state = "Abgeschlossen"
+                self._state = "Completed"
             elif mode == "Work":
-                self._state = "In Arbeit"
+                self._state = "Working"
             elif mode == "P_SLEEP":
-                self._state = "Schlafmodus"
+                self._state = "Sleeping"
             elif mode == "P_IDLE":
-                self._state = "Im Leerlauf"
+                self._state = "Idle"
             else:
-                self._state = "Unbekannt"
+                self._state = "Unknown"
         except Exception as e:
             _LOGGER.error("Error fetching data from XTool: %s", e)
             self._state = "off"
