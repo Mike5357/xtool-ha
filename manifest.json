@@ -1,9 +1,9 @@
 {
   "domain": "xtool",
   "name": "XTool",
-  "documentation": "https://github.com/BassXT/xtool",
+  "documentation": "https://github.com/Mike5357/xtool-ha",
   "requirements": [],
   "dependencies": [],
-  "codeowners": ["@BassXT"],
+  "codeowners": ["@BassXT","@Mike5357"],
   "version": "1.0"
 }
